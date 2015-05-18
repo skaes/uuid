@@ -53,7 +53,11 @@ VALUE rb_uuid_compare(VALUE self, VALUE other) {
 VALUE rb_uuid_variant(VALUE self) {
     uuid_t uuid_b;
     memcpy(uuid_b, RSTRING_PTR(rb_iv_get(self,  "@uuid")), 16);
+#ifdef HAVE_UUID_VARIANT
     return INT2NUM(uuid_variant(uuid_b));
+#else
+    return INT2NUM(0);
+#endif
 }
 
 void rb_uuid_initialize(VALUE self, VALUE uuid) {
